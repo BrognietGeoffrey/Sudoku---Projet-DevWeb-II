@@ -1,11 +1,11 @@
-import random
+import random as r
 
-board = [[1,2,3,4,5,6,7,8,9]]*9
-print(board)
-def createBoard(board):
-	pass
-	
-	
+board = [[1,2,3,4,5,6,7,8,9] for i in range(9)]
+
+def createBoard():
+	board2 = board[:]
+	for i in range(9):
+		r.shuffle(board[i])
 
 def verifColonne():
 	isok = False
@@ -38,3 +38,10 @@ def verifDiagonale():
 
 def uniqueNumbers(numbers):
 	return numbers.sort() == [1,2,3,4,5,6,7,8,9]
+
+def printBoard():
+	for i in range(9):
+		print(board[i])
+
+createBoard()
+printBoard()
