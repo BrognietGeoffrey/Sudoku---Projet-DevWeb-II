@@ -3,22 +3,19 @@ import random as r
 board = [[1,2,3,4,5,6,7,8,9] for i in range(9)]
 
 def createBoard():
-
 	for i in range(9):
 		r.shuffle(board[i])
+	if not (verifColonne() and verifDiagonale()):
+		createBoard()
 
 def verifColonne():
-	isok = False
 	for colonne in range(9):
 		numbers = []
 		for ligne in range(9):
-			if board[ligne][colonne] not in numbers:
-				numbers.append(board[ligne][colonne])
+			numbers.append(board[ligne][colonne])
 		if not uniqueNumbers(numbers):
 			return False
-		else:
-			isok = True
-	return isok
+	return True
 	
 def verifDiagonale():
 	numbers = []
