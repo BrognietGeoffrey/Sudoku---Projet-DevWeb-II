@@ -1,23 +1,23 @@
 from random import sample
 
 board = []
-base = 3
-side = base * base
+carre = 3
+taille = carre**2
+compteur_taille_carre = range(carre)
 
-def createBoard():
-	rBase = range(base)
+def create_board():
 	rows, cols = [], []
-	for r in shuffle(rBase):
-		for g in shuffle(rBase):
-			rows.append(g * base + r)
+	for r in shuffle(compteur_taille_carre):
+		for g in shuffle(compteur_taille_carre):
+			rows.append(g * carre + r)
 
-	for c in shuffle(rBase):
-		for g in shuffle(rBase):
-			cols.append(g * base + c)
+	for c in shuffle(compteur_taille_carre):
+		for g in shuffle(compteur_taille_carre):
+			cols.append(g * carre + c)
 
-	nums = shuffle(range(1, base * base + 1))
+	nums = shuffle(range(1, taille + 1))
 
-	# produce board using randomized baseline pattern
+	# produce board using randomized carreline pattern
 	for r in rows:
 		temp = []
 		for c in cols:
@@ -25,25 +25,25 @@ def createBoard():
 		board.append(temp)
 
 def pattern(r, c):
-	# pattern for a baseline valid solution
-	return (base * (r % base) + r // base + c) % side
+	# pattern for a carreline valid solution
+	return (carre * (r % carre) + r // carre + c) % taille
 
 def shuffle(s):
-	# randomize rows, columns and numbers (of valid base pattern)
+	# randomize rows, columns and numbers (of valid carre pattern)
 	return sample(s, len(s))
 
-def printBoard():
-	print(" =" * (side*2+2))
-	for i in range(side):
+def print_board():
+	for i in range(taille):
+		if i % 3 == 0 or i==0:
+			print(" =" * (taille * 2 + 2))
 		print("||", end="")
 		for j,x in enumerate(board[i]):
 			if j%3==0 and j!=0:
 				print("|",end="")
 			print(" {} |".format(x), end="")
 		print("|")
+		if i==taille-1:
+			print(" ="*(taille*2+2))
 
-		if (i+1)%3==0:
-			print(" =" * (side*2+2))
-
-createBoard()
-printBoard()
+create_board()
+print_board()
