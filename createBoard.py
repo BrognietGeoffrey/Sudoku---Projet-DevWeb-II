@@ -1,34 +1,16 @@
-import sys
 from random import sample
-sys.setrecursionlimit(2**31-1)
 
-board = [[1,2,3,4,5,6,7,8,9] for i in range(9)]
+board = []
+base = 3
+side = base * base
 
 def createBoard():
-	"""for i in range(9):
-		r.shuffle(board[i])
-	if not (verifColonne() and verifDiagonale()):
-		createBoard()"""
-	base = 3
-	side = base * base
-
-	# pattern for a baseline valid solution
-	def pattern(r, c):
-		return (base * (r % base) + r // base + c) % side
-
-	# randomize rows, columns and numbers (of valid base pattern)
-	def shuffle(s):
-		return sample(s, len(s))
-
 	rBase = range(base)
-	# rows  = [ g*base + r for g in shuffle(rBase) for r in shuffle(rBase) ]
-	rows = []
+	rows, cols = [], []
 	for r in shuffle(rBase):
 		for g in shuffle(rBase):
 			rows.append(g * base + r)
 
-	# cols  = [ g*base + c for g in shuffle(rBase) for c in shuffle(rBase) ]
-	cols = []
 	for c in shuffle(rBase):
 		for g in shuffle(rBase):
 			cols.append(g * base + c)
@@ -36,49 +18,32 @@ def createBoard():
 	nums = shuffle(range(1, base * base + 1))
 
 	# produce board using randomized baseline pattern
-	# board = [ [nums[pattern(r,c)] for c in cols] for r in rows ]
-	board = []
 	for r in rows:
 		temp = []
 		for c in cols:
 			temp.append(nums[pattern(r, c)])
 		board.append(temp)
 
-	for line in board:
-		print(line)
+def pattern(r, c):
+	# pattern for a baseline valid solution
+	return (base * (r % base) + r // base + c) % side
 
-def verifColonne():
-	"""for colonne in range(9):
-		numbers = []
-		for ligne in range(9):
-			numbers.append(board[ligne][colonne])
-		if not uniqueNumbers(numbers):
-			return False"""
-	numbers = []
-	for i in range(81):
-		if i%9==0:
-			numbers = []
-		if len(numbers)<9:
-			numbers.append(board[i%9][i//9])
-		if len(numbers)==9 and not uniqueNumbers(numbers):
-			return False
-	return True
-	
-def verifDiagonale():
-	numbers = []
-	numbers2 = []
-	for i in range(9):
-		numbers.append(board[i][i])
-		numbers2.append(board[-i][-i])
-	return uniqueNumbers(numbers) and uniqueNumbers(numbers2)
-		
-
-def uniqueNumbers(numbers):
-	return sorted(numbers) == [1,2,3,4,5,6,7,8,9]
+def shuffle(s):
+	# randomize rows, columns and numbers (of valid base pattern)
+	return sample(s, len(s))
 
 def printBoard():
-	for i in range(9):
-		print(board[i])
+	print(" =" * (side*2+2))
+	for i in range(side):
+		print("||", end="")
+		for j,x in enumerate(board[i]):
+			if j%3==0 and j!=0:
+				print("|",end="")
+			print(" {} |".format(x), end="")
+		print("|")
+
+		if (i+1)%3==0:
+			print(" =" * (side*2+2))
 
 createBoard()
-#printBoard()
+printBoard()
