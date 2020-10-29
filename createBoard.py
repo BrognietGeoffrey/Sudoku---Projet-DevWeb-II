@@ -5,6 +5,7 @@ carre = 3
 taille = carre**2
 compteur_taille_carre = range(carre)
 
+
 def create_board():
 	rows, cols = [], []
 	for r in shuffle(compteur_taille_carre):
@@ -24,13 +25,16 @@ def create_board():
 			temp.append(nums[pattern(r, c)])
 		board.append(temp)
 
+
 def pattern(r, c):
 	# pattern for a carreline valid solution
 	return (carre * (r % carre) + r // carre + c) % taille
 
+
 def shuffle(s):
 	# randomize rows, columns and numbers (of valid carre pattern)
 	return sample(s, len(s))
+
 
 def print_board():
 	for i in range(taille):
@@ -44,6 +48,7 @@ def print_board():
 		print("|")
 		if i==taille-1:
 			print(" ="*(taille*2+2))
+
 
 create_board()
 print_board()
