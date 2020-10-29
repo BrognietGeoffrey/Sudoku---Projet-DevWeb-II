@@ -7,25 +7,28 @@ compteur_taille_carre = range(taille_carre)
 
 def create_board():
 	lignes, colonnes = [], []
-	for i in shuffle(compteur_taille_carre):
-		for j in shuffle(compteur_taille_carre):
-			colonnes.append(j * taille_carre + i)
-
+	tableau = shuffle(range(1, taille + 1))
+	# Création d'une ligne et une colonne avec des valeurs random
 	for i in shuffle(compteur_taille_carre):
 		for j in shuffle(compteur_taille_carre):
 			lignes.append(j * taille_carre + i)
 
-	nums = shuffle(range(1, taille + 1))
+	for i in shuffle(compteur_taille_carre):
+		for j in shuffle(compteur_taille_carre):
+			colonnes.append(j * taille_carre + i)
 
-	# produce board using randomized carreline pattern
+	# Création du sudoku en vérifiant la possibilité avec pattern(x,y)
 	for i in lignes:
 		temp = []
 		for j in colonnes:
-			temp.append(nums[pattern(i, j)])
+			temp.append(tableau[pattern(i, j)])
 		board.append(temp)
 
 def pattern(ligne, colonne):
-	# pattern for a carreline valid solution
+	"""
+	Algorithme qui renvoie un nombre valide pour le board selon un paterne
+	prédéfini pour le sudoku
+	"""
 	return (taille_carre * (ligne % taille_carre) + ligne // taille_carre + colonne) % taille
 
 def shuffle(tableau):
@@ -33,6 +36,7 @@ def shuffle(tableau):
 	return sample(tableau, len(tableau))
 
 def print_board():
+	# Imprime le board en console de manière la plus lisible possible
 	for i in range(taille):
 		if i%3==0 or i==0:
 			print(" =" *(taille*2+2))
