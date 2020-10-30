@@ -5,6 +5,7 @@ taille_carre = 3
 taille = taille_carre**2
 compteur_taille_carre = range(taille_carre)
 
+
 def create_board():
 	lignes, colonnes = [], []
 	tableau = shuffle(range(1, taille + 1))
@@ -24,6 +25,7 @@ def create_board():
 			temp.append(tableau[pattern(i, j)])
 		board.append(temp)
 
+
 def pattern(ligne, colonne):
 	"""
 	Algorithme qui renvoie un nombre valide pour le board selon un paterne
@@ -31,9 +33,11 @@ def pattern(ligne, colonne):
 	"""
 	return (taille_carre * (ligne % taille_carre) + ligne // taille_carre + colonne) % taille
 
+
 def shuffle(tableau):
 	# Mélange les lignes et les colonnes
 	return sample(tableau, len(tableau))
+
 
 def print_board():
 	# Imprime le board en console de manière la plus lisible possible
@@ -48,6 +52,7 @@ def print_board():
 		print("|")
 		if i==taille-1:
 			print(" ="*(taille*2+2))
+
 
 create_board()
 print_board()
