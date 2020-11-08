@@ -1,6 +1,7 @@
 from random import sample, randint
 from os import system
 import copy, platform
+
 board, player_board = [], []
 taille_carre = 3
 taille = taille_carre**2
@@ -42,17 +43,24 @@ def shuffle(tableau):
 
 def print_board():
 	""" Imprime le board en console de manière la plus lisible possible """
+
+	for i in range(1,taille+1):
+		if i==1:
+			print("    ",end="")
+		print(i, end="   " if i%3!=0 else "\n" if i==taille else "    ")
+
+
 	for i in range(taille):
 		if i%3==0 or i==0:
-			print(" =" *(taille*2+2))
-		print("||", end="")
+			print(" ="*(taille*2+3))
+		print("{} ||".format(i), end="")
 		for j,x in enumerate(player_board[i]):
 			if j%3==0 and j!=0:
 				print("|",end="")
-			print(" {} |".format(x if x!= 0 else " "), end="")
+			print(" {} |".format(x if x!= 0  else " "), end="")
 		print("|")
 		if i==taille-1:
-			print(" ="*(taille*2+2))
+			print(" ="*(taille*2+3))
 
 def create_player_board():
 	for i in range(taille-1):
@@ -77,8 +85,8 @@ def game():
 		system("{}".format("cls" if platform.system()=="Windows" else "clear"))
 		print_board()
 		try:
-			x = verif_number(int(input("x:")))
-			y = verif_number(int(input("y:")))
+			x = verif_number(int(input("Ligne:")))
+			y = verif_number(int(input("Colonne:")))
 			number = verif_number(int(input("Chiffre:")))
 			if not compare_board(x,y,number):
 				print("C'est faux!")
