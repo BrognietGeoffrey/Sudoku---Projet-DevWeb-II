@@ -12,6 +12,7 @@ class Sudoku:
 		self.msg_difficulty = "Veuillez sélectionner une difficultée: 1 pour facile, 2 pour moyen et 3 pour difficile: "
 		self.msg_erreur_chiffre = "Veuillez insérer un chiffre entre 1 et {}".format(self.taille)
 		self.msg_error_difficulty = "Veuillez insérer un chiffre entre 1 et 3"
+		self.temps = 0
 
 	def create_board(self):
 		""" Création du board """
@@ -106,9 +107,9 @@ class Sudoku:
 			except:
 				print(self.msg_erreur_chiffre)
 			if self.win():
-				end = time.time()
+				self.temps = str(datetime.timedelta(seconds=time.time()-start)).split(".")[0]
 				break
-		print("Partie terminée! Temps: {} ".format(datetime.timedelta(seconds=end-start)).split(".")[0])
+		print("Partie terminée! Temps: {} ".format(self.temps))
 
 a=Sudoku()
 a.game()
