@@ -1,6 +1,6 @@
 from random import sample, randint
 from os import system
-import copy, platform
+import copy, platform, time, datetime
 
 class Sudoku:
 	def __init__(self):
@@ -8,9 +8,10 @@ class Sudoku:
 		self.taille_carre = 3
 		self.taille = self.taille_carre**2
 		self.compteur_taille_carre = range(self.taille_carre)
-		self.difficulty = 2
+		self.difficulty = 0
 		self.msg_difficulty = "Veuillez sélectionner une difficultée: 1 pour facile, 2 pour moyen et 3 pour difficile: "
-		self.message_erreur = "Veuillez insérer un chiffre entre 1 et {}".format(self.taille)
+		self.msg_erreur_chiffre = "Veuillez insérer un chiffre entre 1 et {}".format(self.taille)
+		self.msg_error_difficulty = "Veuillez insérer un chiffre entre 1 et 3"
 
 	def create_board(self):
 		""" Création du board """
@@ -59,7 +60,7 @@ class Sudoku:
 			for j,x in enumerate(self.player_board[i]):
 				if j%3==0 and j!=0:
 					print("|",end="")
-				print(" {} |".format(x if x!= 0  else " "), end="")
+				print(" {} |".format(x if x!=0 else " "), end="")
 			print("|")
 			if i==self.taille-1:
 				print(" ="*(self.taille*2+3))
@@ -67,7 +68,7 @@ class Sudoku:
 	def create_player_board(self):
 		for i in range(self.taille-1):
 			for j in range(self.taille-1):
-				if randint(1,10) < self.difficulty:
+				if randint(0,10) < self.difficulty:
 					self.player_board[i][j] = 0
 	def win(self):
 		for i in range(self.taille):
@@ -83,9 +84,14 @@ class Sudoku:
 		return number == self.board[x-1][y-1]
 
 	def game(self):
+		while self.difficulty < 1 or self.difficulty > 4:
+			try:
+				self.difficulty = int(input(self.msg_difficulty))
+			except:
+				print(self.msg_error_difficulty)
 		self.player_board = copy.deepcopy(self.create_board())
 		self.create_player_board()
-		self.difficulty = int(input(self.msg_difficulty))
+		start = time.time()
 		while True:
 			system("{}".format("cls" if platform.system()=="Windows" else "clear"))
 			self.print_board()
@@ -98,12 +104,11 @@ class Sudoku:
 				else:
 					self.player_board[x-1][y-1] = number
 			except:
-				print(self.message_erreur)
+				print(self.msg_erreur_chiffre)
 			if self.win():
+				end = time.time()
 				break
-		print("Partie terminée!")
-
-
+		print("Partie terminée! Temps: {} ".format(datetime.timedelta(seconds=end-start)).split(".")[0])
 
 a=Sudoku()
 a.game()
