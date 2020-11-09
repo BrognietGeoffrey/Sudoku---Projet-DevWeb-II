@@ -4,6 +4,8 @@ import copy, platform
 from time import time
 from datetime import timedelta
 
+liste_joueur = {}
+
 class Sudoku:
 	def __init__(self):
 		self.board, self.player_board = [], []
@@ -104,15 +106,30 @@ class Sudoku:
 				y = self.verif_number(int(input("Colonne:")))
 				number = self.verif_number(int(input("Chiffre:")))
 				if not self.compare_board(x,y,number):
+					self.malus_time += 10
 					print("C'est faux!")
 				else:
 					self.player_board[x-1][y-1] = number
 			except:
 				print(self.msg_erreur_chiffre)
 			if self.win():
-				self.temps = str(timedelta(seconds=time()-start)).split(".")[0] + timedelta(seconds=self.malus_time)
+				self.temps = timedelta(seconds=time()-start)
+				self.malus_time = str(timedelta(seconds=self.malus_time) + self.temps).split(".")[0]
 				break
-		print("Partie terminée! Temps: {} ".format(self.temps))
+		print("Partie terminée!\nTemps de jeu: {}\nTemps avec fautes: {}".format(str(self.temps).split(".")[0], self.malus_time))
 
-a=Sudoku()
-a.game()
+def ask_name():
+    name = (input("Taper votre nom ou exit pour quitter le jeu: "))
+    if not name.isalpha() or name=="":
+        print("Vous avez tapé un numéro ou vous n'avez rien tapé, réessayez ")
+        return ask_name()
+    return name
+
+if __name__ == "__main__":
+	while True:
+		nom = ask_name()
+		if nom == "exit":
+			print("Au revoir!")
+			break
+		liste_joueur[nom]=Sudoku()
+		liste_joueur[nom].game()
