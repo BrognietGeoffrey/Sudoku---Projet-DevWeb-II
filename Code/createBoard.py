@@ -1,6 +1,8 @@
 from random import sample, randint
 from os import system
-import copy, platform, time, datetime
+import copy, platform
+from time import time
+from datetime import timedelta
 
 class Sudoku:
 	def __init__(self):
@@ -13,6 +15,7 @@ class Sudoku:
 		self.msg_erreur_chiffre = "Veuillez insérer un chiffre entre 1 et {}".format(self.taille)
 		self.msg_error_difficulty = "Veuillez insérer un chiffre entre 1 et 3"
 		self.temps = 0
+		self.malus_time = 0
 
 	def create_board(self):
 		""" Création du board """
@@ -92,7 +95,7 @@ class Sudoku:
 				print(self.msg_error_difficulty)
 		self.player_board = copy.deepcopy(self.create_board())
 		self.create_player_board()
-		start = time.time()
+		start = time()
 		while True:
 			system("{}".format("cls" if platform.system()=="Windows" else "clear"))
 			self.print_board()
@@ -107,7 +110,7 @@ class Sudoku:
 			except:
 				print(self.msg_erreur_chiffre)
 			if self.win():
-				self.temps = str(datetime.timedelta(seconds=time.time()-start)).split(".")[0]
+				self.temps = str(timedelta(seconds=time()-start)).split(".")[0] + timedelta(seconds=self.malus_time)
 				break
 		print("Partie terminée! Temps: {} ".format(self.temps))
 
