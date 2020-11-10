@@ -4,7 +4,6 @@ import copy, platform
 from time import time
 from datetime import timedelta
 
-liste_joueur = {}
 
 class Sudoku:
 	def __init__(self):
@@ -16,8 +15,9 @@ class Sudoku:
 		self.msg_difficulty = "Veuillez sélectionner une difficultée: 1 pour facile, 2 pour moyen et 3 pour difficile: "
 		self.msg_erreur_chiffre = "Veuillez insérer un chiffre entre 1 et {}".format(self.taille)
 		self.msg_error_difficulty = "Veuillez insérer un chiffre entre 1 et 3"
+		self.msg_win = "Bravo {}, vous avez terminé la partie en {} {}"
 		self.temps = 0
-		self.malus_time = 0
+		self.malus = 0
 
 	def create_board(self):
 		""" Création du board """
@@ -106,7 +106,7 @@ class Sudoku:
 				y = self.verif_number(int(input("Colonne:")))
 				number = self.verif_number(int(input("Chiffre:")))
 				if not self.compare_board(x,y,number):
-					self.malus_time += 10
+					self.malus += 10
 					print("C'est faux!")
 				else:
 					self.player_board[x-1][y-1] = number
@@ -114,9 +114,17 @@ class Sudoku:
 				print(self.msg_erreur_chiffre)
 			if self.win():
 				self.temps = timedelta(seconds=time()-start)
-				self.malus_time = str(timedelta(seconds=self.malus_time) + self.temps).split(".")[0]
+				system("{}".format("cls" if platform.system() == "Windows" else "clear"))
+				self.print_board()
 				break
-		print("Partie terminée!\nTemps de jeu: {}\nTemps avec fautes: {}".format(str(self.temps).split(".")[0], self.malus_time))
+
+	def get_score(self, nom_joueur):
+		malus_time = str(timedelta(seconds=self.malus) + self.temps).split(".")[0]
+		print(self.msg_win.format(nom_joueur, str(self.temps).split(".")[0],
+								  "sans erreur" if self.malus==0 else "avec un temps final de {} et {} faute{}".format(
+									  malus_time, self.malus, "" if self.malus<1 else "s"
+								  )))
+
 
 def ask_name():
     name = (input("Taper votre nom ou exit pour quitter le jeu: "))
@@ -131,5 +139,6 @@ if __name__ == "__main__":
 		if nom == "exit":
 			print("Au revoir!")
 			break
-		liste_joueur[nom]=Sudoku()
-		liste_joueur[nom].game()
+		a=Sudoku()
+		a.game()
+		a.get_score(nom)
