@@ -121,8 +121,9 @@ class Sudoku:
 	def get_score(self, nom_joueur):
 		penalty_time = str(timedelta(seconds=self.penalty) + self.playtime).split(".")[0]
 		print(self.msg_win.format(nom_joueur, str(self.playtime).split(".")[0],
-								  "without any mistake" if self.penalty==0 else "with as final time: {} and {} error{}".format(
-									  penalty_time, self.penalty, "" if self.penalty<1 else "s"
+								  "without any mistake!" if self.penalty==0 else
+								  "with as final time: {} and {} error{}.".format(
+									penalty_time, self.penalty, "" if self.penalty<1 else "s"
 								  )))
 
 
