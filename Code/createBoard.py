@@ -99,8 +99,12 @@ class Sudoku:
 		self.player_board = copy.deepcopy(self.create_board())
 		self.create_player_board()
 		start = time()
+		wrong = False
 		while True:
 			system("{}".format("cls" if platform.system() == "Windows" else "clear"))
+			if wrong:
+				print("Too bad, it's wrong!")
+				wrong = False
 			self.print_board()
 			try:
 				x = self.verif_number(int(input("Line:")))
@@ -108,9 +112,9 @@ class Sudoku:
 				number = self.verif_number(int(input("Number:")))
 				if not self.compare_board(x, y, number):
 					self.penalty += 10
-					print("Too bad, it's wrong!")
+					wrong = True
 				else:
-					self.player_board[x-1][y-1] = number
+					self.player_board[x - 1][y - 1] = number
 			except:
 				print(self.msg_error_number)
 			if self.win():
@@ -124,7 +128,7 @@ class Sudoku:
 		print(self.msg_win.format(player_name, str(self.playtime).split(".")[0],
 								  "without any mistake!" if self.penalty == 0 else
 								  "with as final time: {} and {} error{}.".format(
-									penalty_time, self.penalty, "" if self.penalty < 1 else "s")))
+									penalty_time, self.penalty//10, "" if self.penalty//10 < 2 else "s")))
 
 
 def ask_name():
