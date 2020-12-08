@@ -1,27 +1,31 @@
 from kivy.app import App
-from kivy.lang import Builder
-from kivy.uix.screenmanager import ScreenManager, Screen
-from kivy.properties import ObjectProperty
-from kivy.uix.popup import Popup
-from kivy.uix.label import Label
+from kivy.uix.boxlayout import BoxLayout
 
 
-"""
-class NewAccount(Screen):
-    name_player = ObjectProperty(None)
-    password_player = ObjectProperty(None)
-    email_player = ObjectProperty(None)
+class SignIn(BoxLayout):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
-    def submit(self):
-        if self.name_player.text != "" and self.password_player.text != "" and self.email_player.text.count("@") == 1 and self.email_player.text.count(".") > 0:
-            if self.password_player != "":
-                db.add_user
+    def validate_user(self):
+        user_name = self.ids.username_field
+        password = self.ids.password_field
+
+        uname = user_name.text
+        pwd = password.text
+
+        if uname == '' or pwd == '':
+            print('username and/ or password required')
+        else:
+            if uname == 'admin' and pwd == 'admin':
+                print("Bienvenue")
 
 
-kv = Builder.load_file("account.kv")
-
-
-class MainApp(App):
+class Account(App):
     def build(self):
-        return kv
-"""
+        return SignIn()
+
+
+if __name__ == "__main__":
+    account = Account()
+    account.run()
+
