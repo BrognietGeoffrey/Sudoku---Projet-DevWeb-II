@@ -4,7 +4,6 @@ from Sudoku.create_board import Sudoku
 def ask_name():
     """
     Function that ask the player for a valid name.
-
     Return: name, a string that contains the player's chosen name.
     """
     name = (input("Type your name or 'exit' to quit the game: "))
