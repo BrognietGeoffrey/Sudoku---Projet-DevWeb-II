@@ -1,0 +1,259 @@
+WindowManager:
+    SignInWindow:
+    RegisterWindow:
+    PlayerWindow:
+    GameWindow:
+<FlatButton@ButtonBehavior+Label>
+    font_size : 10
+<SignInWindow>:
+    name: "sign_in_window"
+    id: sign_in_window
+    orientation: "vertical"
+    spacing : 10
+    space_x : self.size[0]/3
+    canvas.before :
+        Color :
+            rgba : (1,1,1, 1)
+        Rectangle :
+            size : self.size
+            pos : self.pos
+
+    BoxLayout:
+        size_hint_y : None
+        height : 60
+        canvas.before :
+            Color :
+                rgba : (.06, .45, .45, 1)
+            Rectangle :
+                size : self.size
+                pos : self.pos
+        Label:
+            text :"Sudoku Game"
+            bold : True
+            size_hint_x : .8
+
+
+        Button:
+            text : "HOME"
+            size_hint_x : .8
+            on_press:
+                app.root.current = "player_window" if password_field.text =="a" and username_field.text=="a" else "sign_in_window"
+                root.manager.transition.direction = "down"
+
+            FlatButton:
+
+
+
+    BoxLayout :
+        orientation : "vertical"
+        padding :  sign_in_window.space_x, 15
+        spacing : 5
+        BoxLayout :
+            orientation : "vertical"
+            spacing : 10
+            size_hint_y : None
+            height : 85
+            TextInput :
+                id : username_field
+                hint_text : "Username"
+                multiline : False
+                focus : True
+                on_text_validate : password_field.focus = True
+            TextInput :
+                id : password_field
+                hint_text : "Password"
+                multiline : False
+                password : True
+                on_text_validate : root.validate_user()
+
+        Label :
+            id : user_pass_place
+            size_hint_y : None
+            height : 40
+        Button:
+            text : "If you don't have an account \n             register here"
+            size_hint_y : None
+            height : 36
+            background_color : (.06, .45, .45, 1)
+            background_normal : ''
+            on_release:
+                app.root.current = "register_window"
+        Button :
+            text : "Sign In"
+            size_hint_y : None
+            height : 40
+            background_color : (.06, .45, .45, 1)
+            background_normal : ''
+            on_release :
+                app.root.current = "player_window" if password_field.text == "tim" and username_field.text == "tim" else "sign_in_window"
+                root.manager.transition.direction = "left"
+        Label :
+            id : sign_in_button_place
+
+<RegisterWindow>:
+    name : "register_window"
+    id: register_window
+    orientation: "vertical"
+    spacing : 10
+    space_x : self.size[0]/3
+    canvas.before :
+        Color :
+            rgba : (1,1,1, 1)
+        Rectangle :
+            size : self.size
+            pos : self.pos
+
+    BoxLayout:
+        size_hint_y : None
+        height : 50
+        canvas.before :
+            Color :
+                rgba : (.06, .45, .45, 1)
+            Rectangle :
+                size : self.size
+                pos : self.pos
+        Label:
+            text :"Sudoku Game"
+            bold : True
+            size_hint_x : .9
+
+        Button:
+            text : "HOME"
+            size_hint_x : .8
+            on_press:
+                app.root.current = "player_window" if password_field.text =="a" and username_field.text=="a" else "sign_in_window"
+                root.manager.transition.direction = "right"
+
+    BoxLayout :
+        orientation : "vertical"
+        padding :  register_window.space_x, 10
+        spacing : 20
+        BoxLayout :
+            orientation : "vertical"
+            spacing : 10
+            size_hint_y : None
+            height : 80
+            TextInput :
+                id : username_field
+                hint_text : "Username"
+                multiline : False
+                focus : True
+                on_text_validate : password_field.focus = True
+            TextInput :
+                id : password_field
+                hint_text : "Password"
+                multiline : False
+                password : True
+                on_text_validate : root.validate_user()
+
+        Label :
+            id : user_pass_place
+            size_hint_y : None
+            height : 40
+        Button :
+            text : "Register"
+            size_hint_y : None
+            height : 40
+            background_color : (.06, .45, .45, 1)
+            background_normal : ''
+            on_release :
+                app.root.current = "player_window" if password_field.text == "tim" and username_field.text == "tim" else "sign_in_window"
+                root.manager.transition.direction = "left"
+        Label :
+            id : register_button_place
+
+<PlayerWindow>:
+    id : player_window
+    name: "player_window"
+    orientation: "vertical"
+    spacing : 10
+    space_x : self.size[0]/3
+    canvas.before :
+        Color :
+            rgba : (1,1,1, 1)
+        Rectangle :
+            size : self.size
+            pos : self.pos
+
+    BoxLayout:
+        size_hint_y : None
+        height : 50
+        canvas.before :
+            Color :
+                rgba : (.06, .45, .45, 1)
+            Rectangle :
+                size : self.size
+                pos : self.pos
+        Label:
+            text :"Sudoku Game"
+            bold : True
+            size_hint_x : .9
+
+        Button:
+            text : "New Game"
+            size_hint_x : .8
+            on_release:
+                app.root.current = "game_window"
+                root.manager.transition.direction = "left"
+
+        Button:
+            text : "HOME"
+            size_hint_x : .8
+            on_release:
+                app.root.current = "player_window"
+    BoxLayout :
+        orientation : "vertical"
+        padding :  player_window.space_x, 10
+        spacing : 20
+
+
+
+<GameWindow>:
+    id: game_window
+    name: "game_window"
+
+    text:""
+    font_size: 0.7 * self.width
+    padding: 0.3 * self.width, (self.height-height)/2
+    input_filter : lambda text, from_undo: text if (text.isdigit() and len(self.text) == 0 and 0 < int(text) < 10) else ""
+    multiline: False
+    cursor_color: [0,0,0,0]
+
+    canvas.before:
+        Color:
+            rgb:1,1,1,1
+        Rectangle:
+            pos:self.pos
+            size:self.size
+    BoxLayout:
+        orientation:"vertical"
+        size:root.size
+        GridLayout:
+            id:grid_sudoku
+            rows:9
+            cols:9
+            line_size:7
+            canvas:
+                Color:
+                    rgb:0,0,0,0
+                Rectangle:
+                    pos: self.x + self.width / 3 - self.line_size /2, self.y
+                    size:self.line_size, self.height
+                Rectangle:
+                    pos: self.x + 2 * self.width / 3 - self.line_size / 2, self.y
+                    size:self.line_size, self.height
+                Rectangle:
+                    pos:self.x, self.y + self.height / 3 - self.line_size/ 2
+                    size: self.width, self.line_size
+                Rectangle:
+                    pos:self.x, self.y + 2 * self.height / 3 - self.line_size/ 2
+                    size: self.width, self.line_size
+        BoxLayout:
+            orientation:"horizontal"
+            size_hint: 1, 0.1
+            Button:
+                text: "Start"
+                on_press: root.start()
+            Button:
+                text:"Save Game"
+                on_press: root.save_game()

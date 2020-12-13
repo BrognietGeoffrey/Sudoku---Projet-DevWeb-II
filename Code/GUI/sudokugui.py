@@ -1,12 +1,21 @@
 from kivy.app import App
+from kivy.lang import Builder
 from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.screenmanager import ScreenManager, Screen
 
 
-class SignIn(BoxLayout):
+class WindowManager(ScreenManager):
+    pass
+
+
+class SignInWindow(BoxLayout, Screen):
+    pass
+    """
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
     def validate_user(self):
+        
         user_name = self.ids.username_field
         password = self.ids.password_field
 
@@ -18,13 +27,29 @@ class SignIn(BoxLayout):
         else:
             if uname == 'admin' and pwd == 'admin':
                 print("Bienvenue")
+"""
 
 
-class Sudoku(App):
+class RegisterWindow(BoxLayout, Screen):
+    pass
+
+
+class PlayerWindow(BoxLayout, Screen):
+    pass
+
+
+class GameWindow(BoxLayout, Screen):
+    pass
+
+
+kv = Builder.load_file("sudokugui.kv")
+
+
+class SudokuGui(App):
     def build(self):
-        return SignIn()
+        return kv
 
 
 if __name__ == "__main__":
-    sudoku = Sudoku()
+    sudoku = SudokuGui()
     sudoku.run()
