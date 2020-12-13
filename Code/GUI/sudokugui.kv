@@ -161,50 +161,13 @@ WindowManager:
                 root.manager.transition.direction = "left"
         Label :
             id : register_button_place
-
+#MyImage@Image>:
+    #keep_ratio: False
+    #allow_stretch: True
 <PlayerWindow>:
     id : player_window
     name: "player_window"
-    orientation: "vertical"
-    spacing : 10
-    space_x : self.size[0]/3
-    canvas.before :
-        Color :
-            rgba : (1,1,1, 1)
-        Rectangle :
-            size : self.size
-            pos : self.pos
 
-    BoxLayout:
-        size_hint_y : None
-        height : 50
-        canvas.before :
-            Color :
-                rgba : (.06, .45, .45, 1)
-            Rectangle :
-                size : self.size
-                pos : self.pos
-        Label:
-            text :"Sudoku Game"
-            bold : True
-            size_hint_x : .9
-
-        Button:
-            text : "New Game"
-            size_hint_x : .8
-            on_release:
-                app.root.current = "game_window"
-                root.manager.transition.direction = "left"
-
-        Button:
-            text : "HOME"
-            size_hint_x : .8
-            on_release:
-                app.root.current = "player_window"
-    BoxLayout :
-        orientation : "vertical"
-        padding :  player_window.space_x, 10
-        spacing : 20
 
 
 
@@ -214,7 +177,6 @@ WindowManager:
 
     text:""
     font_size: 0.7 * self.width
-    padding: 0.3 * self.width, (self.height-height)/2
     input_filter : lambda text, from_undo: text if (text.isdigit() and len(self.text) == 0 and 0 < int(text) < 10) else ""
     multiline: False
     cursor_color: [0,0,0,0]
@@ -230,9 +192,9 @@ WindowManager:
         size:root.size
         GridLayout:
             id:grid_sudoku
-            rows:9
-            cols:9
-            line_size:7
+            rows:10
+            cols:10
+            line_size:6
             canvas:
                 Color:
                     rgb:0,0,0,0
