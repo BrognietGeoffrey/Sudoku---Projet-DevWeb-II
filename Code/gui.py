@@ -9,13 +9,14 @@ from PyQt5 import QtCore
 from PyQt5 import QtWidgets
 from datetime import timedelta
 
-class MyMainWindow(QtWidgets.QMainWindow):
+class Sudoku_GUI(QtWidgets.QMainWindow):
     def __init__(self):
 
         super().__init__()
         self.resize(512, 512)
         self.setWindowTitle("Sudoku ")
 
+        # Initialization of the time widget
         self.my_qtimer = QtCore.QTimer(self)
         self.game_time = 0
         self.widget_counter_int = 0
@@ -33,6 +34,7 @@ class MyMainWindow(QtWidgets.QMainWindow):
         self.timer_start()
         self.update_gui()
 
+    # Time related functions
     def timer_start(self):
         # Starts the timer
         self.my_qtimer.timeout.connect(self.timer_timeout)
@@ -48,6 +50,7 @@ class MyMainWindow(QtWidgets.QMainWindow):
         # Update the time
         self.time_passed.setText(str(timedelta(seconds=self.game_time)))
 
+    # Grid creation
     def paintEvent(self, event):
         painter = QPainter(self)
         size = 40
@@ -70,6 +73,6 @@ class MyMainWindow(QtWidgets.QMainWindow):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    window = MyMainWindow()
+    window = Sudoku_GUI()
     window.show()
     sys.exit(app.exec_())
