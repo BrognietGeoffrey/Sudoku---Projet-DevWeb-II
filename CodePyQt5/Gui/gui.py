@@ -1,15 +1,15 @@
 import sys
-from CodePyQt5.logic.create_board import *
+from Sudoku import create_board
 
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 
-from PyQt5 import QtCore, QtWidgets
+from PyQt5 import QtCore
+from PyQt5 import QtWidgets
 from datetime import timedelta
 
-
-class SudokuGui(QtWidgets.QMainWindow):
+class Sudoku_GUI(QtWidgets.QMainWindow):
     def __init__(self):
 
         super().__init__()
@@ -26,10 +26,12 @@ class SudokuGui(QtWidgets.QMainWindow):
         vbox = QtWidgets.QVBoxLayout()
         central_widget.setLayout(vbox)
 
-        self.pages_qsw = QtWidgets.QStackedWidget()
-        vbox.addWidget(self.pages_qsw)
+        self.align_bottom = QtWidgets.QStackedWidget()
+        vbox.addWidget(self.align_bottom)
         self.time_passed = QtWidgets.QLabel()
         vbox.addWidget(self.time_passed)
+        # Align the time in bottom center of the screen
+        self.time_passed.setAlignment(Qt.AlignCenter)
 
         self.timer_start()
         self.update_gui()
@@ -73,6 +75,6 @@ class SudokuGui(QtWidgets.QMainWindow):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    window = SudokuGui()
+    window = Sudoku_GUI()
     window.show()
     sys.exit(app.exec_())
