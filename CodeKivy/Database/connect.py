@@ -1,5 +1,5 @@
 import psycopg2
-from Code.Database.config import config
+from CodeKivy.Database.config import config
 
 
 def connect():
@@ -24,3 +24,4 @@ def connect():
 
 if __name__ == "__main__":
     connect()
+

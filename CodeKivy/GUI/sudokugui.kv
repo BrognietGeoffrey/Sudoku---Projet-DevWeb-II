@@ -40,7 +40,6 @@ WindowManager:
                 app.root.current = "player_window" if password_field.text =="a" and username_field.text=="a" else "sign_in_window"
                 root.manager.transition.direction = "down"
 
-            FlatButton:
 
 
 
@@ -78,6 +77,8 @@ WindowManager:
             background_normal : ''
             on_release:
                 app.root.current = "register_window"
+                root.manager.transition.direction = "down"
+
         Button :
             text : "Sign In"
             size_hint_y : None
@@ -121,7 +122,7 @@ WindowManager:
             text : "HOME"
             size_hint_x : .8
             on_press:
-                app.root.current = "player_window" if password_field.text =="a" and username_field.text=="a" else "sign_in_window"
+                app.root.current = "player_window" if password_field.text == True and username_field.text== True else "register_window"
                 root.manager.transition.direction = "right"
 
     BoxLayout :
@@ -156,9 +157,7 @@ WindowManager:
             height : 40
             background_color : (.06, .45, .45, 1)
             background_normal : ''
-            on_release :
-                app.root.current = "player_window" if password_field.text == "tim" and username_field.text == "tim" else "sign_in_window"
-                root.manager.transition.direction = "left"
+            on_press: app.insert_player_name()
         Label :
             id : register_button_place
 #MyImage@Image>:
@@ -171,51 +170,40 @@ WindowManager:
 
 
 
-<GameWindow>:
-    id: game_window
-    name: "game_window"
-
-    text:""
-    font_size: 0.7 * self.width
-    input_filter : lambda text, from_undo: text if (text.isdigit() and len(self.text) == 0 and 0 < int(text) < 10) else ""
-    multiline: False
-    cursor_color: [0,0,0,0]
+<GridWindow:
+    button: button
 
     canvas.before:
+        # border
         Color:
-            rgb:1,1,1,1
+            rgba: self.border_color if self._selected else (0, 0, 0, 1)
         Rectangle:
-            pos:self.pos
-            size:self.size
-    BoxLayout:
-        orientation:"vertical"
-        size:root.size
-        GridLayout:
-            id:grid_sudoku
-            rows:10
-            cols:10
-            line_size:6
-            canvas:
-                Color:
-                    rgb:0,0,0,0
-                Rectangle:
-                    pos: self.x + self.width / 3 - self.line_size /2, self.y
-                    size:self.line_size, self.height
-                Rectangle:
-                    pos: self.x + 2 * self.width / 3 - self.line_size / 2, self.y
-                    size:self.line_size, self.height
-                Rectangle:
-                    pos:self.x, self.y + self.height / 3 - self.line_size/ 2
-                    size: self.width, self.line_size
-                Rectangle:
-                    pos:self.x, self.y + 2 * self.height / 3 - self.line_size/ 2
-                    size: self.width, self.line_size
-        BoxLayout:
-            orientation:"horizontal"
-            size_hint: 1, 0.1
-            Button:
-                text: "Start"
-                on_press: root.start()
-            Button:
-                text:"Save Game"
-                on_press: root.save_game()
+            pos: self.center_x - self.width / 2, self.center_y - self.height / 2
+            size: self.size
+
+        # fore
+        Color:
+            rgba: self.color
+        Rectangle:
+            pos: self.center_x - self.width / 2 + (self.border_width if root._selected else 0), self.center_y - self.height / 2 + (self.border_width if root._selected else 0)
+            size: self.width - self.border_width * (4 if root._selected else 1), self.height - self.border_width * (4 if root._selected else 1)
+
+    Label:
+        font_size: 18
+        center_x: root.center_x - 15
+        center_y: root.center_y + 15
+        text: str(root.review) if root.review != 0 else ''
+        color: 0, 0, 0, 1
+
+    Label:
+        font_size: 28
+        center_x: root.center_x
+        center_y: root.center_y
+        text: str(root.current) if root.current != 0 else ''
+        color: (0, 0, 0, 1) if root.review == 0 else root.faded
+
+    Button:
+        id: button
+        background_color: 1, 1, 1, 0
+        pos: root.pos
+        size: root.size

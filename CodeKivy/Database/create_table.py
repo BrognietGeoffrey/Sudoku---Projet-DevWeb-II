@@ -1,5 +1,5 @@
 import psycopg2
-from Code.Database.config import config
+from CodeKivy.Database.config import config
 
 
 def create_tables():
