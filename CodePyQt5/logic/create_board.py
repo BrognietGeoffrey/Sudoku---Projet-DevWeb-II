@@ -5,7 +5,6 @@ from os import system
 from random import sample, randint
 from time import time
 
-
 class Sudoku:
 	def __init__(self):
 		self.start = 0
@@ -23,20 +22,42 @@ class Sudoku:
 
 	#  Getters:
 	def get_player_board(self):
+		"""
+		Get the player's board
+
+		PRE: -
+		POST:
+			returns self.player_board: matrix composed of int numbers from 0 to 9
+		"""
 		return self.player_board
 
 	def get_size(self):
+		"""
+		Get the size of the sudoku
+
+		PRE: -
+		POST:
+			returns self.size: int number representing the size of the sudoku
+		"""
 		return self.size
 
 	def getTime(self):
+		"""
+		Get the time spent solving the sudoku
+
+		PRE: -
+		POST:
+			returns str: a string representing a time
+		"""
 		return timedelta(seconds=time() - self.start)
 
 	def create_board(self):
 		"""
 		Function that creates the sudoku board.
 
-		Return:
-			self.board: a completed sudoku board game in a matrix format.
+		PRE: -
+		POST:
+			returns self.board: a completed sudoku board game in a matrix format.
 		"""
 		lines, columns = [], []
 		table = self.shuffle(range(1, self.size + 1))
@@ -61,12 +82,12 @@ class Sudoku:
 		"""
 		Function that returns a valid number for the sudoku board from a predefined pattern.
 
-		Args:
+		PRE:
 			line: a integer from a number of a line.
 			column: a integer from a number of a column.
 
-		Return:
-			int: a integer calculated with a number of a line, a column and the size of the sudoku.
+		POST:
+			returns an int: a integer calculated with a number of a line, a column and the size of the sudoku.
 		"""
 		return (self.square_grid * (line % self.square_grid) + line // self.square_grid + column) % self.size
 
@@ -74,17 +95,20 @@ class Sudoku:
 		"""
 		Function that shuffles a list.
 
-		Arg:
+		PRE:
 			table: a list of integer.
 
-		Return:
-			list: a randomized list from table, randomized with the sample() method.
+		POST:
+			returns a list: a randomized list from table, randomized with the sample() method.
 		"""
 		return sample(table, len(table))
 
 	def print_board(self):
 		"""
 		Function that prints the game board in console line in the most readable way.
+
+		PRE: -
+		POST: -
 		"""
 
 		for i in range(1, self.size + 1):
@@ -115,7 +139,12 @@ class Sudoku:
 				print(" =" * (self.size * 2 + 3))
 
 	def create_player_board(self):
-		# Function that creates a board for the player to play, by randomly removing numbers in the board
+		"""		
+		Function that creates a board for the player to play, by randomly removing numbers in the board
+
+		PRE: -
+		POST: -
+		"""
 		for i in range(self.size - 1):
 			for j in range(self.size - 1):
 				if randint(0, 10) < self.difficulty:
@@ -129,8 +158,9 @@ class Sudoku:
 		"""
 		Function that checks if the player's board is completed or not.
 
-		Return:
-			boolean: returns True if the board is completed, False otherwise.
+		PRE: -
+		POST:
+			returns a boolean: returns True if the board is completed, False otherwise.
 		"""
 		for i in range(self.size):
 			for j in range(self.size):
@@ -142,13 +172,13 @@ class Sudoku:
 		"""
 		Function that matches the player's board with the board in a certain x and y axis on both boards.
 
-		Args:
+		PRE:
 		 	x: integer that represents the x axis.
 		 	y: integer that represents the y axis.
 		 	number: integer of the user's input.
 
-		Return:
-			boolean: returns True when the number in x and y axis matches on both board tables.
+		POST:
+			returns a boolean: returns True when the number in x and y axis matches on both board tables.
 		"""
 		return number == self.board[x - 1][y - 1]
 
@@ -156,7 +186,8 @@ class Sudoku:
 		"""
 		Function that checks if the user wrote a correct number of difficulty, and ask again if not the case.
 
-		Return: None.
+		PRE: -
+		POST: -
 		"""
 		while self.difficulty < 1 or self.difficulty > 4:
 			try:
@@ -168,13 +199,64 @@ class Sudoku:
 
 	def get_score(self, player_name):
 		"""
-		Function that returns the score of the player.
-		
-		Arg:
+		Function that returns and prints the score of the player.
+
+		PRE:
 			player_name: name of the player taken as a string.
+		POST: -
 		"""
 		penalty_time = str(timedelta(seconds=self.penalty) + self.playtime).split(".")[0]
-		print(self.msg_win.format(player_name, str(self.playtime).split(".")[0],
+		return print(self.msg_win.format(player_name, str(self.playtime).split(".")[0],
 								  "without any mistake!" if self.penalty == 0 else
 								  "with as final time: {} and {} error{}.".format(
 									  penalty_time, self.penalty // 10, "" if self.penalty // 10 < 2 else "s")))
+
+	def game(self):
+		"""
+        Function that calls all other functions to launch the game.
+        Will loop till the game is finished.
+
+        PRE: -
+        POST: -
+        """
+
+		self.difficulty_selection()
+		self.player_board = copy.deepcopy(self.create_board())
+		self.create_player_board()
+		self.start = time()
+		wrong = False
+
+		# Infinite loop till the game's over.
+		while True:
+
+			system("{}".format("cls" if platform.system() == "Windows" else "clear"))
+			if wrong:
+				# Outputs a message saying that the player got a wrong answer.
+				print("Too bad, it's wrong!")
+				wrong = False
+			self.print_board()
+
+			try:
+				# Ask the player numbers for the line, column and number.
+				x = int(input("Line:"))
+				y = int(input("Column:"))
+				number = int(input("Number:"))
+
+				# Checks the board with the player's number.
+				if not self.compare_board(x, y, number):
+					# Adds penalty points when a wrong number is given.
+					self.penalty += 10
+					wrong = True
+				else:
+					# Adds the correct number in the player's board.
+					self.player_board[x - 1][y - 1] = number
+					# Check if the player completed the board.
+					if self.win():
+						self.playtime = self.getTime()
+						system("{}".format("cls" if platform.system() == "Windows" else "clear"))
+						self.print_board()
+						break
+
+			# Ask the player to enter a correct value if it was not the case.
+			except ValueError:
+				print(self.msg_error_number)
