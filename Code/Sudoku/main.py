@@ -1,4 +1,4 @@
-from Sudoku.create_board import Sudoku
+from Code.Sudoku.create_board import Sudoku
 
 
 def ask_name():
