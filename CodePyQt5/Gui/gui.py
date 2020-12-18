@@ -1,5 +1,5 @@
 import sys
-from CodePyQt5.logic.create_board import *
+from Sudoku.create_board import *
 
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
