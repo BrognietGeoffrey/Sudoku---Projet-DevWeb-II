@@ -1,7 +1,7 @@
 import unittest, mock
 from random import seed
 
-from Sudoku.create_board import *
+from CodePyQt5.logic.create_board import *
 
 
 class SudokuTest(unittest.TestCase):
