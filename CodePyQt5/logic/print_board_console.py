@@ -1,4 +1,4 @@
-from Sudoku.create_board import *
+from CodePyQt5.logic.create_board import *
 
 
 class ConsoleBoard:
