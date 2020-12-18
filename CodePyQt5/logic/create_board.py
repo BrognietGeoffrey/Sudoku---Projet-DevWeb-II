@@ -212,7 +212,7 @@ class Sudoku:
                                          "with as final time: {} and {} error{}.".format(
                                              penalty_time, self.penalty // 10, "" if self.penalty // 10 < 2 else "s"))
         print(msg)
-        return(msg)
+        return msg
 
     def game(self):
         """
