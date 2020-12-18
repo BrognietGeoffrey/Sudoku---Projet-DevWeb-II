@@ -1,12 +1,11 @@
-from Sudoku import main, create_board
+from Sudoku.create_board import *
 
 
 class ConsoleBoard:
     def __init__(self):
-        self.player_board = main.game_start.get_player_board()
-        self.size = create_board.get_size()
+        super(ConsoleBoard, self).__init__()
 
-    def print_board(self):
+    def print_board(self, player_board, size):
         """
         Function that prints the game board in console line in the most readable way.
         """
@@ -37,3 +36,4 @@ class ConsoleBoard:
             # Prints the bottom line of the board
             if i == self.size - 1:
                 print(" =" * (self.size * 2 + 3))
+
