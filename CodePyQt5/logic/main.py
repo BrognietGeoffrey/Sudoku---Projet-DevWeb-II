@@ -1,5 +1,4 @@
-from CodePyQt5.logic.create_board import *
-import sqlite3
+from Sudoku.create_board import Sudoku
 
 
 def ask_name():
@@ -15,21 +14,6 @@ def ask_name():
         print("You typed a number or nothing, please retry.")
         return ask_name()
     return name
-
-
-def send_to_db(player_id, name, score):
-    conn = sqlite3.connect(r'../../CodePyQt5/Database/sudokudb.db')  # Connection to database
-    cursor = conn.cursor()  # Connection between the database and the futur query selection
-    cursor.execute("""CREATE TABLE IF NOT EXISTS classement (
-                                                player_id integer NOT NULL PRIMARY KEY, 
-                                                player_score double NOT NULL
-                                                player_name text NOT NULL,
-                                                )""")
-    cursor.execute("""INSERT INTO classement(player_id, password_score, player_name)
-                                        VALUES(?,?, ?)""", (player_id, name, score))
-    conn.commit()  # Commit to database
-    cursor.close()  # end query
-    conn.close()  # Close connection to database
 
 
 if __name__ == "__main__":
