@@ -206,14 +206,13 @@ class Sudoku:
 			player_name: name of the player taken as a string.
 		POST: -
 		"""
-        print(timedelta(seconds=self.penalty))
         penalty_time = str(timedelta(seconds=self.penalty) + self.playtime).split(".")[0]
         msg = self.msg_win.format(player_name, str(self.playtime).split(".")[0],
                                          "without any mistake!" if self.penalty == 0 else
                                          "with as final time: {} and {} error{}.".format(
                                              penalty_time, self.penalty // 10, "" if self.penalty // 10 < 2 else "s"))
         print(msg)
-        return(msg)
+        return msg
 
     def game(self):
         """
