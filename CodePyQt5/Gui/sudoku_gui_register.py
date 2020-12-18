@@ -125,7 +125,6 @@ class GuiRegister(object):
             try:
                 txt_username = self.tu.text() # value of the username field
                 txt_password = self.tp.text() # value of the password field
-
                 conn = sqlite3.connect(r'../../CodePyQt5/Database/sudokudb.db') # Connection to database
                 cursor = conn.cursor() # Connection between the database and the futur query selection
                 cursor.execute("""CREATE TABLE IF NOT EXISTS players (
@@ -133,13 +132,16 @@ class GuiRegister(object):
                                             player_name text NOT NULL, 
                                             password_player text NOT NULL
                                             )""")
-                cursor.execute("""INSERT INTO players(player_name, password_player)
+                add = cursor.execute("""INSERT INTO players(player_name, password_player)
                                     VALUES(?,?)""", (txt_username, txt_password))
-                conn.commit() # Commit to database
-                cursor.close() # end query
-                conn.close() # Close connection to database
-                self.popup_register_window("Added To Database")
-            except:
+                if add == txt_username:
+                    self.popup_register_window("Here")
+                else:
+                    conn.commit() # Commit to database
+                    cursor.close() # end query
+                    conn.close() # Close connection to database
+                    self.popup_register_window("Added To Database")
+            except sqlite3.IntegrityError as e:
                 self.popup_register_window("Cannot add to database")
 
 
