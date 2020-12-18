@@ -1,4 +1,5 @@
-from Sudoku.create_board import *
+from CodePyQt5.logic.create_board import *
+
 
 def game(self):
     """
@@ -42,6 +43,7 @@ def game(self):
         # Ask the player to enter a correct value if it was not the case.
         except ValueError:
             print(self.msg_error_number)
+
 
 if __name__ == "__main__":
     game_start = Sudoku()
