@@ -39,6 +39,12 @@ class SudokuTest(unittest.TestCase):
         self.assertNotEqual(Sudoku.get_player_board(self), 1)
         self.assertNotEqual(Sudoku.get_player_board(self), -1)
         self.assertNotEqual(Sudoku.get_player_board(self), "[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]")
+        print("""
+        ####################
+        # TEST PLAYER BOARD#
+        # -----------------#
+        # STATUS : OK      #
+        ####################""")
 
     def test_get_size(self):
         self.assertEqual(Sudoku.get_size(self), 9)
@@ -48,6 +54,12 @@ class SudokuTest(unittest.TestCase):
         self.assertNotEqual(Sudoku.get_size(self), 15)
         self.assertRaises(TypeError, Sudoku.get_size(self), "p")
         self.assertRaises(TypeError, Sudoku.get_size(self), "&")
+        print("""
+        ####################
+        #  TEST GET SIZE   #
+        # -----------------#
+        # STATUS : OK      #
+        ####################""")
 
     def test_pattern(self):
         # Calcul: (3 * (arg1 % 3) + arg1 // 3 + arg2) % 9
@@ -62,6 +74,13 @@ class SudokuTest(unittest.TestCase):
         self.assertRaises(TypeError, Sudoku.pattern, self, "&", "p")
         self.assertRaises(TypeError, Sudoku.pattern, self, 4, "p")
         self.assertRaises(TypeError, Sudoku.pattern, self, "&", 6)
+
+        print("""
+        ###############
+        # TEST PATTERN#
+        # ----------- #
+        # STATUS : OK #
+        ###############""")
 
     def test_shuffle(self):
         self.assertNotEqual(Sudoku.shuffle(self, [1, 2, 3]), [1, 2, 3])
@@ -80,6 +99,13 @@ class SudokuTest(unittest.TestCase):
         self.assertEqual(len(Sudoku.shuffle(self, ["1", "2", "3", "4", "5", "6", "7", "8", "9"])), 9)
         self.assertNotEqual(len(Sudoku.shuffle(self, ["1", "2", "3", "4", "5", "6", "7", "8", "9"])), 2)
 
+        print("""
+        ################
+        # TEST  SHUFFLE#
+        # ------------ #
+        # STATUS : OK  #
+        ################""")
+
     def test_win(self):
         self.size = 3
         self.player_board = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
@@ -93,9 +119,21 @@ class SudokuTest(unittest.TestCase):
 
         self.player_board = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
         self.assertFalse(Sudoku.win(self))
+        print("""
+        ####################
+        # TEST PLAYER WIN  #
+        # -----------------#
+        # STATUS : OK      #
+        ####################""")
 
     def test_print(self):
         print(Sudoku.print_board(self))
+        print("""
+        ###############
+        # TEST PRINT  #
+        # ----------  #
+        # STATUS : OK #
+        ###############""")
 
     def test_compare_board(self):
         # tests the comparison of the board with the input
@@ -104,10 +142,22 @@ class SudokuTest(unittest.TestCase):
         self.assertEqual(Sudoku.compare_board(self, 1, 7, 7), True)
         self.assertEqual(Sudoku.compare_board(self, 1, 7, 9), False)
         self.assertEqual(Sudoku.compare_board(self, 4, 9, 3), True)
+        print("""
+        #######################
+        # TEST COMPARE BOARD  #
+        # ------------------- #
+        # STATUS : OK         #
+        #######################""")
 
     @mock.patch('builtins.input', return_value="a")
     def str_testing(self, mock_input):
         return "a"
+        print("""
+        #####################   
+        # TEST str_testing  #
+        # ----------------- #
+        # STATUS : OK       #
+        #####################""")
 
     @mock.patch('builtins.input', return_value=1)
     def test_difficulty_selection(self, mock_input):
@@ -128,6 +178,12 @@ class SudokuTest(unittest.TestCase):
         Sudoku.difficulty_selection(self)
         self.difficulty = self.str_testing()
         self.assertNotEqual(self.difficulty, 1)
+        print("""
+        ##########################################
+        # TEST PLAYER DIFFICULTY SELECTION EASY  #
+        # -------------------------------------- #
+        # STATUS : OK                            #
+        ##########################################""")
 
     @mock.patch('builtins.input', return_value=2)
     def test_difficulty_selection2(self, mock_input):
@@ -149,6 +205,13 @@ class SudokuTest(unittest.TestCase):
         self.difficulty = self.str_testing()
         self.assertNotEqual(self.difficulty, 2)
 
+        print("""
+        ############################################
+        # TEST PLAYER DIFFICULTY SELECTION MEDIUM  #
+        # ---------------------------------------- #
+        # STATUS : OK                              #
+        ############################################""")
+
     @mock.patch('builtins.input', return_value=3)
     def test_difficulty_selection3(self, mock_input):
         self.msg_difficulty = "Please select a difficulty: 1 for easy, 2 for medium et 3 for hard: "
@@ -169,6 +232,13 @@ class SudokuTest(unittest.TestCase):
         self.difficulty = self.str_testing()
         self.assertNotEqual(self.difficulty, 3)
 
+        print("""
+        ##########################################
+        # TEST PLAYER DIFFICULTY SELECTION HARD  #
+        # -------------------------------------- #
+        # STATUS : OK                            #
+        ##########################################""")
+
     def test_get_score(self):
         name = "test"
         self.playtime = timedelta(seconds=30)
@@ -178,6 +248,13 @@ class SudokuTest(unittest.TestCase):
         self.assertMultiLineEqual((Sudoku.get_score(self, name)), "0:00:40")
         self.penalty = 20
         self.assertMultiLineEqual((Sudoku.get_score(self, name)), "0:00:50")
+
+        print("""
+        ###################
+        # TEST GET SCORE  #
+        # --------------- #
+        # STATUS : OK     #
+        ###################""")
 
 
 if __name__ == "__main__":
