@@ -4,9 +4,9 @@ configparser==5.0.1
 docutils==0.16
 idna==2.10
 Kivy==2.0.0
-kivy-deps.angle==0.3.0
-kivy-deps.glew==0.3.0
-kivy-deps.sdl2==0.3.1
+#kivy-deps.angle==0.3.0
+#kivy-deps.glew==0.3.0
+#kivy-deps.sdl2==0.3.1
 Kivy-examples==2.0.0
 Kivy-Garden==0.1.4
 mysql==0.0.2
@@ -25,3 +25,4 @@ urllib3==1.26.2
 logic~=0.2.3
 django-key~=0.5.0
 PyQt5~=5.15.2
+mock~=4.0.3
