@@ -35,4 +35,4 @@ jobs:
           pip install pytest
       - name: Run Pytest
         run: |
-            pytest logic/test_create_board.py
+            pytest tests/test_create_board.py
