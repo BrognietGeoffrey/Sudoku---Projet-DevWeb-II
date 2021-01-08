@@ -7,8 +7,8 @@ idna==2.10
 #kivy-deps.angle==0.3.0
 #kivy-deps.glew==0.3.0
 #kivy-deps.sdl2==0.3.1
-Kivy-examples==2.0.0
-Kivy-Garden==0.1.4
+#Kivy-examples==2.0.0
+#Kivy-Garden==0.1.4
 mysql==0.0.2
 mysql-connector-python==8.0.22
 mysqlclient==2.0.2
